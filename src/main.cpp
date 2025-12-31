@@ -1,10 +1,6 @@
 #include "raylib.h"
 
-int getCenter(int screenWidth, int rectWidth)
-{
-    return (screenWidth / 2) - (rectWidth / 2);
-}
-
+// Structs
 struct Player
 {
     Vector2 position;
@@ -13,9 +9,35 @@ struct Player
 
     void Draw()
     {
-        DrawRectangle(position.x, position.y, size, size, color);
+        DrawRectangle((int)position.x, (int)position.y, (int)size, (int)size, color);
     }
 };
+
+struct Thorn
+{
+    Vector2 position;
+    float size;
+    Color color;
+
+    void Draw()
+    {
+        DrawRectangle((int)position.x, (int)position.y, (int)size, (int)size, color);
+    }
+};
+
+// Helper functions
+int getCenter(int screenWidth, int rectWidth)
+{
+    return (screenWidth / 2) - (rectWidth / 2);
+}
+bool CheckCollision(Player plr, Thorn thr)
+{
+    return (
+        plr.position.x < thr.position.x + thr.size &&
+        plr.position.x + plr.size > thr.position.x &&
+        plr.position.y < thr.position.y + thr.size &&
+        plr.position.y + plr.size > thr.position.y);
+}
 
 int main(void)
 {
@@ -29,6 +51,12 @@ int main(void)
     Player player = {
         .position = {(float)getCenter(screenWidth, (int)playerSize), (float)screenHeight - 150},
         .size = playerSize,
+        .color = WHITE,
+    };
+    float thornSize = 30.0f;
+    Thorn thorn = {
+        .position = {(float)getCenter(screenWidth, (int)thornSize) + 200, (float)screenHeight - 130},
+        .size = thornSize,
         .color = WHITE,
     };
 
@@ -64,7 +92,16 @@ int main(void)
         {
             player.position.y += 3;
         }
+
+        // Collision
+        if (CheckCollision(player, thorn))
+        {
+            CloseWindow();
+            return 0;
+        }
+
         player.Draw();
+        thorn.Draw();
 
         // Text draw here
         DrawFPS(0, 0);
