@@ -43,6 +43,27 @@ int main(void)
         DrawLine(0, screenHeight - 100, screenWidth, screenHeight - 100, WHITE);
 
         // Draw objects here
+        // Jump
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            player.position.y -= 200;
+        }
+
+        // Go left and right
+        if (IsKeyDown(KEY_A))
+        {
+            player.position.x -= 5;
+        }
+        if (IsKeyDown(KEY_D))
+        {
+            player.position.x += 5;
+        }
+
+        // Apply gravity
+        if (player.position.y < screenHeight - 150)
+        {
+            player.position.y += 3;
+        }
         player.Draw();
 
         // Text draw here
