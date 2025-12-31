@@ -67,10 +67,7 @@ int main(void)
 
         ClearBackground(BLACK);
 
-        // Draw background here
-        DrawLine(0, screenHeight - 100, screenWidth, screenHeight - 100, WHITE);
-
-        // Draw objects here
+        // Game Logic
         // Jump
         if (IsKeyPressed(KEY_SPACE))
         {
@@ -100,6 +97,10 @@ int main(void)
             return 0;
         }
 
+        // Draw background here
+        DrawLine(0, screenHeight - 100, screenWidth, screenHeight - 100, WHITE);
+
+        // Draw objects
         player.Draw();
         thorn.Draw();
 
